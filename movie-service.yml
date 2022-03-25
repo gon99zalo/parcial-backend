@@ -7,7 +7,7 @@ spring:
 
   sql:
     init:
-      dataLocations: classPath:/movies_service.sql
+      dataLocations: classPath:/movie-service.sql
 
 
   jpa:
