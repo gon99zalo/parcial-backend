@@ -6,12 +6,12 @@ spring:
           enable: true
           lower-case-service-id: true
       routes:
-        - id: movie-service-route
-          uri: lb://movie-service-route
+        - id: movie-service-parcial-route
+          uri: lb://movie-service
           predicates:
             - Path=/movies/**
-        - id: catalog-service-route
-            uri: lb://catalog-library-service
+        - id: catalog-service-parcial-route
+            uri: lb://catalog-service
             predicates:
               - Path=/catalog/**
 
