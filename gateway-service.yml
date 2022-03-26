@@ -7,7 +7,7 @@ spring:
           lower-case-service-id: true
       routes:
         - id: movie-service-route
-          uri: lb://movie-service
+          uri: lb://movie-service-route
           predicates:
             - Path=/movies/**
         - id: catalog-service-route
