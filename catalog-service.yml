@@ -1,21 +1,27 @@
 spring:  
-  datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:db/catalog;DB_CLOSE_DELAY=-1
-    username: sa
-    password: sa
-  
-  sql:
-    init:
-      dataLocations: classpath:/catalog-service.sql  
-      
-  jpa:  
-    defer-datasource-initialization: true
-    hibernate:
-      ddlAuto: create-drop
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/FinalBackEnd
+  zipkin:
+    base-url: http://localhost:9411/
+    enabled: true
+
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
 
 server:
-    port: 8082
+    port: 8065
+    
+queue:
+  movie:
+    name: movieQueue
+  serie:
+    name: serieQueue
+  catalog:
+    name: catalogQueue
 
 eureka:
   client:
@@ -23,5 +29,41 @@ eureka:
     registerWithEureka: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
-  instance:
-    preferIpAddress: true  
+      
+      
+resilience4j:
+  circuitbreaker:
+    instances:
+      movie:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15000
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
+        allowHealthIndicatorToFail: false
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+      serie:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15000
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
+        allowHealthIndicatorToFail: false
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+  retry:
+    instances:
+      movies:
+        waitDuration: 1000
+        maxAttempts: 3
+        retryExceptions:
+          - feign.FeignException$InternalServerError
+
+      serie:
+        waitDuration: 1000
+        maxAttempts: 3
+        retryExceptions:
+          - feign.FeignException$InternalServerError
