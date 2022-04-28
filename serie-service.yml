@@ -1,0 +1,23 @@
+server:
+  port : 8082
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/FinalBackEnd
+  zipkin:
+    base-url: http://zipkin:9411/
+    enabled: true
+
+  rabbitmq:
+    username: guest
+    password: guest
+    host: rabbit-mq
+
+queue:
+  serie:
+    name: serieQueue
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
