@@ -25,17 +25,9 @@ spring:
         - AddRequestHeader=user-request-header, custom-user-request-header
         - AddResponseHeader=user-response-header, custom-user-response-header
         - LogFilter
-        - TokenRelay
 
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: 68c6e797f81e596de070
-            client-secret: 39619f9f95d00ceb91c1f6261587b5c0a94ac0f0
   zipkin:
-    base-url: http://localhost:9411/
+    base-url: http://zipkin:9411/
     enabled: true
 
 eureka:
@@ -45,7 +37,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
 
